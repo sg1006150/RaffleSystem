@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,12 +25,41 @@ public class HelloController {
         return String.valueOf(id);
     }
     @GetMapping("/user")
-    public String query()
+    public List query()
     {
-        List<User> list=userMapper.find();
+        List<User> list = userMapper.selectList(null);
         System.out.println(list);
-        return "query";
+        return list;
     }
+    @PostMapping("/user")
+    public String save(User user)
+    {
+        int i = userMapper.insert(user);
+        if (i > 0)
+        {
+            return "插入成功";
+        }
+        else
+        {
+            return "插入失败";
+        }
+    }
+
+    @PostMapping("/userD")
+    public String delete(int id)
+    {
+        int i = userMapper.deleteById(id);
+        if(i > 0)
+        {
+            return "删除成功";
+        }
+        else
+        {
+            return "删除失败";
+        }
+    }
+
+
     @Autowired
     private UserMapper userMapper;
 }

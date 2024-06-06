@@ -1,10 +1,16 @@
 package com.raffle.rafflesystem.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.util.List;
+
+@TableName("user")
 public class User {
 
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setId(int id) {
@@ -16,18 +22,20 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
-
 
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "name='" + name + '\'' +
                 ", id=" + id +
                 '}';
     }
-    private String username;
+
+    private String name;
+    @TableId(type = IdType.AUTO)
     private int id;
+
 }
