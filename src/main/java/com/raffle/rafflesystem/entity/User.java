@@ -1,33 +1,31 @@
 package com.raffle.rafflesystem.entity;
 
 public class User {
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    public int getId() {
-        return id;
+    public String getPassword() {
+        return password;
     }
 
     public String getUsername() {
         return username;
     }
 
+    private String username;
 
     @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", id=" + id +
+                ", password='" + password + '\'' +
                 '}';
     }
-    private String username;
-    private int id;
+
+    private String password;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

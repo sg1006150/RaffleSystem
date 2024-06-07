@@ -1,6 +1,6 @@
 package com.raffle.rafflesystem.config;
 
-import com.raffle.rafflesystem.Interceptor.LoginInterceptor;
+import com.raffle.rafflesystem.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

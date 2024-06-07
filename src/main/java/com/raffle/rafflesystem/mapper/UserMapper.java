@@ -2,6 +2,7 @@ package com.raffle.rafflesystem.mapper;
 
 import com.raffle.rafflesystem.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,6 @@ import java.util.List;
 public interface UserMapper {
     @Select("select * from user")
     public List<User> find();
+    @Select("select * from user where username=#{username}")
+    User findByUsername(String username);
 }
