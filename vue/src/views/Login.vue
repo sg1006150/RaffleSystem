@@ -2,6 +2,7 @@
   import {ref} from 'vue';
   import axios from 'axios';
   import { ElMessage } from 'element-plus'
+  import router from "@/router";
 
   const user = ref({
   username: '',
@@ -20,9 +21,11 @@ const login = () => {
       })
       .catch(error => {
         console.log(error);
-        alert(error.message().message);
+        alert(error.message);
       });
-
+};
+const register = ()=>{
+    router.push("/register")
 }
 
 </script>
@@ -33,13 +36,13 @@ const login = () => {
       <div style="flex: 1;display: flex;align-items: center;justify-content: center">
         <el-form v-model="user" style="width:80%">
           <div style="font-size: 30px;font-weight: bold;text-align: center;margin-bottom: 10px">Login</div>
-          <el-text type="info" style="margin-left: 5px;">info</el-text>
+          <el-text type="info" style="margin-left: 5px;">Username</el-text>
       <el-form-item prop="username" style="margin-top: 5px">
         <el-input placeholder="请输入账号" v-model="user.username"></el-input>
       </el-form-item>
-      <div style="display: flex">
-        <el-text type="info" style="margin-left: 5px;flex: 1;text-align: left">password</el-text>
-        <span style="color: #42b983;cursor: pointer;font-size: 10px;text-align:right" >forgot?</span>
+      <div style="display: flex;align-items: center" >
+        <el-text type="info" style="margin-left: 5px;flex: 1;text-align: left;font-size: 15px">Password</el-text>
+        <el-button style="color: #42b983;font-size: 12px;text-align:right" link >Forgot?</el-button>
       </div>
 
       <el-form-item prop="password" style="margin-top: 5px">
@@ -48,7 +51,7 @@ const login = () => {
       <el-form-item>
         <el-button @click="login" size="large" style="width: 100%">登录</el-button>
       </el-form-item>
-      <el-text type="info">还没有账号？请 <span style="color: #42b983 ;cursor: pointer">注册</span> </el-text>
+      <el-text type="info">还没有账号？请<el-button @click="register" style="color: #42b983" link >注册</el-button></el-text>
     </el-form>
     </div>
   </div>

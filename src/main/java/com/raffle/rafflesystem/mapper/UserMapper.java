@@ -1,6 +1,7 @@
 package com.raffle.rafflesystem.mapper;
 
 import com.raffle.rafflesystem.entity.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -14,4 +15,8 @@ public interface UserMapper {
     public List<User> find();
     @Select("select * from user where username=#{username}")
     User findByUsername(String username);
+    @Insert("insert into user(phone) values(#{phone})")
+    int insertUser(User user);
+    @Select("select * from user where phone=#{phone}")
+    User findByPhone(User user);
 }
