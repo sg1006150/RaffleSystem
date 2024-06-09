@@ -1,19 +1,28 @@
 <script setup>
   import {ref} from 'vue';
-  import axios from 'axios';
   import { ElMessage } from 'element-plus'
   import router from "@/router";
+  import request from'../utils/request';
+
 
   const user = ref({
-  username: '',
+  phone: '',
   password: ''
 });
 
 const login = () => {
-  axios.post('http://localhost:8080/login', user.value)
+  request.post('http://localhost:8080/login', user.value)
       .then(response => {
         if(response.data.success){
           ElMessage('Successed')
+          const token=response.data.data.token;
+          localStorage.setItem('token',token);
+          request.get('http://localhost:8080/get1').then(response=>{
+            ElMessage(response.data.data)
+          })
+              .catch(error=>{
+            alert(error.message);
+          })
         }
         else if(!response.data.success){
           ElMessage.error(response.data.message)
@@ -36,9 +45,9 @@ const register = ()=>{
       <div style="flex: 1;display: flex;align-items: center;justify-content: center">
         <el-form v-model="user" style="width:80%">
           <div style="font-size: 30px;font-weight: bold;text-align: center;margin-bottom: 10px">Login</div>
-          <el-text type="info" style="margin-left: 5px;">Username</el-text>
+          <el-text type="info" style="margin-left: 5px;">Phonenum</el-text>
       <el-form-item prop="username" style="margin-top: 5px">
-        <el-input placeholder="请输入账号" v-model="user.username"></el-input>
+        <el-input placeholder="请输入手机号" v-model="user.phone"></el-input>
       </el-form-item>
       <div style="display: flex;align-items: center" >
         <el-text type="info" style="margin-left: 5px;flex: 1;text-align: left;font-size: 15px">Password</el-text>

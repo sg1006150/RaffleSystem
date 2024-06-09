@@ -8,6 +8,7 @@ import io.jsonwebtoken.io.SerialException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -22,5 +23,10 @@ public class LoginController {
             }
             user = userService.login(user);
             return Result.success(user);
+        }
+    @GetMapping("/get1")
+    public Result getUser()
+        {
+            return Result.success(1);
         }
 }

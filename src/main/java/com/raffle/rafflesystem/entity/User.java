@@ -12,6 +12,7 @@ public class User {
     private String username;
 
     private String password;
+    private String token;
 
     public void setPassword(String password) {
         this.password = password;
@@ -28,6 +29,14 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public void setPhone(String phone) {

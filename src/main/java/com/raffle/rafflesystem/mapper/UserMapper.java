@@ -12,11 +12,9 @@ import java.util.List;
 @Repository
 public interface UserMapper {
     @Select("select * from user")
-    public List<User> find();
-    @Select("select * from user where username=#{username}")
-    User findByUsername(String username);
-    @Insert("insert into user(phone) values(#{phone})")
+    public List<User> getAllUser();
+    @Select("select * from user where phone=#{Phone}")
+    User findByPhone(String Phone);
+    @Insert("insert into user(phone,password) values(#{phone},#{password})")
     int insertUser(User user);
-    @Select("select * from user where phone=#{phone}")
-    User findByPhone(User user);
 }
