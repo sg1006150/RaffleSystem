@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Login from '../views/Login.vue'
 import Register from'../views/Register.vue'
 import Manage from '../views/Manage.vue'
+import SetPWD from '../views/SetPWD.vue'
 const routes = [
   {
     path: '/',
@@ -26,6 +27,12 @@ const routes = [
     path: '/manage',
     name: 'manage',
     component: Manage
+  },
+  {
+    path: '/setpwd',
+    name: 'setpwd',
+    component: SetPWD,
+    meta: { requiresReferrer: true }
   }
 
 ]

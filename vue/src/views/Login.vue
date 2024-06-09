@@ -14,15 +14,14 @@ const login = () => {
   request.post('http://localhost:8080/login', user.value)
       .then(response => {
         if(response.data.success){
-          ElMessage('Successed')
           const token=response.data.data.token;
           localStorage.setItem('token',token);
-          request.get('http://localhost:8080/get1').then(response=>{
-            ElMessage(response.data.data)
-          })
-              .catch(error=>{
-            alert(error.message);
-          })
+          if(checkIfNewUser())
+          {
+            router.push('/setpwd')
+            ElMessage("新账户需要修改密码")
+          }
+          else router.push('/manage')
         }
         else if(!response.data.success){
           ElMessage.error(response.data.message)
@@ -33,9 +32,15 @@ const login = () => {
         alert(error.message);
       });
 };
-const register = ()=>{
-    router.push("/register")
+const register = ()=> {
+  router.push("/register");
 }
+    const checkIfNewUser=()=>{
+      if(user.value.phone==user.value.password) {
+        return 1;
+      }
+      else return 0;
+  }
 
 </script>
 

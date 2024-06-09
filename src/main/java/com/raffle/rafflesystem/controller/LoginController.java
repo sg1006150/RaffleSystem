@@ -17,16 +17,12 @@ public class LoginController {
     @Autowired
     private UserService userService;
     @PostMapping("/login")
-    public Result login(@RequestBody User user) {
+    public Result<User> login(@RequestBody User user) {
         if(Objects.equals(user.getPassword(), "") || Objects.equals(user.getUsername(), "")) {
                 throw new ServiceException("数据不合法");
             }
             user = userService.login(user);
             return Result.success(user);
         }
-    @GetMapping("/get1")
-    public Result getUser()
-        {
-            return Result.success(1);
-        }
+
 }

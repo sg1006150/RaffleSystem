@@ -14,11 +14,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
-    public User login(User user)
-    {
+    public User login(User user) {
         User dbuser=userMapper.findByPhone(user.getPhone());
-        if(dbuser==null)
-        {
+        if(dbuser==null) {
             //抛出异常
             throw new ServiceException("用户不存在");
         }
@@ -29,22 +27,23 @@ public class UserService {
         dbuser.setToken(token);
         return dbuser;
     }
-    public User register(User user)
-    {
+    public User register(User user) {
         User existuser=userMapper.findByPhone(user.getPhone());
-        if(existuser!=null)
-        {
+        if(existuser!=null) {
             throw new ServiceException("用户已存在");
         }
         int res=userMapper.insertUser(user);
-        if(res==0)
-        {
+        if(res==0) {
             throw new ServiceException("注册失败");
         }
         return user;
     }
-    public List<User> getAllUser()
-    {
+    public User updateInformation(User user){
+        int state=userMapper.updateUser(user);
+        if(state==0) {throw new ServiceException("设置失败");}
+        return user;
+    }
+    public List<User> getAllUser(){
         return userMapper.getAllUser();
     }
 

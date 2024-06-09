@@ -46,6 +46,24 @@ public class User {
     public String getPhone() {
         return phone;
     }
+    private String type;
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     private String phone;
+    private String email;
 }

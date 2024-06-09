@@ -2,10 +2,11 @@
     <div class="background">
         <div class="mainbox">
             <div style="flex: 1;display: flex;align-items: center;justify-content: center">
-                <el-form :inline="true" :model="registerFrom" class="demo-form-inline"> 
-                    <div style="display: flex; align-items: center;">
+                <el-form :inline="true" :model="registerFrom" class="demo-form-inline">
+                  <div style="text-align: center;font-size: 35px;font-weight: bold;margin-bottom: 30px">注册账号</div>
+                    <div style="display: flex; align-items: center;margin-bottom: 20px">
                         <el-form-item label="手机号" style="margin-right: 0;">
-                            <el-select v-model="registerFrom.region" style="width: 70px;">
+                            <el-select v-model="registerFrom.region" style="width: 70px;margin-right: 10px">
                                 <el-option label="86" value="86"></el-option>
                                 <el-option label="87" value="87"></el-option>
                             </el-select>
@@ -22,10 +23,10 @@
                             <el-button type="primary" @click="send" :disabled="!isSend" style="min-width: 100px; min-height: 30px;">{{ sendmsg }}</el-button>
                         </el-form-item>
                     </div>
-                    <div class="registersubmit" style="display: flex; flex-direction: column; align-items: center; margin-top: 80px;">
+                    <div class="registersubmit" style="display: flex; flex-direction: column; align-items: center; margin-top: 40px;">
                         <div style="display: flex; align-items: center; font-size:10px">
                             <el-checkbox v-model="registerFrom.agree" label="注册即表示您已阅读并同意" name="type"></el-checkbox>
-                            <el-button type="text" @click="open" style="font-size: 10px">《用户使用协议》</el-button>
+                            <el-button type="text" @click="open" style="font-size: 14px;color: #42b983">《用户使用协议》</el-button>
                         </div>
                         <el-button type="primary" style="width:50%; margin-top: 20px;" @click="onSubmit">注册</el-button>
                     </div>
@@ -157,9 +158,9 @@ export default {
   padding: 0;
 }
 .mainbox {
-  height: 60%;
+  height: 50%;
   display: flex;
-  width: 40%;
+  width: 30%;
   background-color: aliceblue;
   border-radius: 5px;
 }

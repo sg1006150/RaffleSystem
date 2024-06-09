@@ -42,13 +42,11 @@ public class LoginInterceptor implements HandlerInterceptor {
             throw new ServiceException(401, "请登录");
         }
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
-        try
-        {
+        try{
             jwtVerifier.verify(token);
         }catch (JWTVerificationException e){
             throw new ServiceException(401,"请登录");
         }
         return true;
     }
-
 }

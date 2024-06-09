@@ -12,6 +12,7 @@
       @open="handleOpen"
       @close="handleClose"
   >
+    <h1 style="text-align: center;margin-top: 10px">抽奖系统</h1>
     <el-sub-menu index="1">
       <template #title>
         <el-icon><location /></el-icon>

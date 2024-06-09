@@ -35,7 +35,6 @@ public class TokenUtils {
         return JWT.create().withAudience(phone)
                 .withExpiresAt(dateInTwoHours)
                 .sign(Algorithm.HMAC256(password));
-
     }
     public static User getUser() {
         try
