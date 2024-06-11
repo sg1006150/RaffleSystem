@@ -39,6 +39,9 @@ public class UserService {
         return user;
     }
     public User updateInformation(User user){
+        if(userMapper.findByUsername(user.getUsername())!=null){
+            throw new ServiceException("用户名已存在");
+        }
         int state=userMapper.updateUser(user);
         if(state==0) {throw new ServiceException("设置失败");}
         return user;

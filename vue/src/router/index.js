@@ -9,6 +9,8 @@ import LotteryRules from '../components/LotteryRules.vue'
 import SettingPrize from '../components/SettingPrize.vue'
 import SettingRule from'../components/SettingRule.vue'
 import ManagePrizes from '../components/ManagePrizes'
+import ExistUsers from '../components/ExistUsers.vue'
+import QRUsers from '../components/QRUsers.vue'
 const routes = [
   {
     path: '/',
@@ -47,6 +49,14 @@ const routes = [
       {
         path: 'prize',
         component:ManagePrizes
+      },
+      {
+        path: 'exist',
+        component: ExistUsers
+      },
+      {
+        path:'QRUser',
+        component: QRUsers
       }]
   },
   {

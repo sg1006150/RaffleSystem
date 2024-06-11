@@ -16,5 +16,7 @@ public interface UserMapper {
     int insertUser(User user);
     @Update("update user set password=#{password},email=#{email},username=#{username} where phone=#{phone}")
     int updateUser(User user);
+    @Select("select * from user where username=#{username}")
+    User findByUsername(String username);
 
 }
