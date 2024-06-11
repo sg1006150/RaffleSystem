@@ -16,15 +16,15 @@
             placeholder="8-16位密码，区分大小写"
           ></el-input>
           <div class="warningtext" style="margin-top: 3px;line-height: 20px">
-            密码应由8-16位数字、字母、符号组成。请不要使用容易被猜到的密码
+            密码应由8-16位数字、字母、符号组成。请不要使用容易被猜到的密码 密码分数{{passwordscore}}
           </div>
           
         </el-form-item>
-        <el-form-item label="密码强度:">
-        <div class="intensity" style="margin-bottom: 0px;margin-left: 5px">
-            <span class="line" :class="[level.includes('low') ? 'low' : '']"></span>
-            <span class="line" :class="[level.includes('middle') ? 'middle' : '']"></span>
-            <span class="line" :class="[level.includes('high') ? 'high' : '']"></span>
+        <el-form-item label="密码强度:" >
+        <div class="intensity" style="margin-bottom: 0px;margin-left: 5px;display: flex">
+            <span class="line" :class="[level.includes('low') ? 'low' : '']" style="flex: 1"></span>
+            <span class="line" :class="[level.includes('middle') ? 'middle' : '']" style="flex: 1"></span>
+            <span class="line" :class="[level.includes('high') ? 'high' : '']" style="flex: 1"></span>
         </div>
         </el-form-item>
         <el-form-item label="确认密码:" prop="confirmPassword">
@@ -47,9 +47,6 @@
         </el-form-item>
         <el-form-item label="验证码:" prop="code">
           <el-input v-model="form.code" placeholder="请输入验证码"></el-input>
-          <div class="warningtext code-warningtext" style="margin-left:0px;margin-top: 2px">
-            请输入图片中的验证码
-          </div>
         </el-form-item>
         <div class="code-container">
             <canvas id="checkCodeCanvas" class="code" width="150" height="60"></canvas>
@@ -72,29 +69,9 @@ const currentUser=ref(
       username:''
     }
 );
-const changePasswd=()=>{
-
-}
-const getCurUser=()=>{
-  request.get('getCurrentUser').then(response=>{
-        if(response.data.success)
-        {
-          currentUser.value.phone=response.data.data.phone
-        }
-        else
-        {
-          ElMessage("Something Wrong")
-        }
-      }
-  ).catch(error=>{
-    ElMessage(error.message)
-  })
-
-}
 </script>
 <script>
 import {ElMessage} from "element-plus";
-import reques from'../utils/request'
 import request from "../utils/request";
 import router from "@/router";
 export default {
@@ -113,7 +90,7 @@ export default {
         newPassword: [
           { required: true, validator: this.checkPassword, trigger: 'change' }
         ],
-        userName:[{required:true,message: 'Please input Activity name', trigger: 'change'}],
+        userName:[{required:true,message: '请输入用户名', trigger: 'change'}],
         confirmPassword: [
           {
             required: true,
@@ -134,6 +111,7 @@ export default {
       confirmPsdtype: 'password', // 初始化 confirmPsdtype 属性
       codeValue: '', // 添加 code 变量
       codetype: 'text', // 初始化 codetype 属性
+      passwordscore:0
     }
   },
   mounted() {
@@ -143,6 +121,7 @@ export default {
   methods: {
     // 校验密码
     checkPassword(rule, value, callback) {
+      this.calculateScore()
       this.level = [];
       if (!value) {
         return callback(new Error('密码不能为空'));
@@ -227,6 +206,36 @@ export default {
         ctx.restore();
       }
       this.form.code = ''; // 重置输入框的值
+    },
+    calculateScore(){
+      let score=0;
+      let password=this.form.newPassword
+      if(password.length===0){
+        score=0;
+      }
+      else if (password.length <= 4) {
+        score += 5;
+      } else if (password.length <= 7) {
+        score += 10;
+      } else {
+        score += 25;
+      }
+      const hasLowerCase = /[a-z]/.test(password);
+      const hasUpperCase = /[A-Z]/.test(password);
+      if (!hasLowerCase && !hasUpperCase) {
+        score += 0; // 没有字母
+      } else if (hasLowerCase && hasUpperCase) {
+        score += 20; // 大小写混合字母
+      } else {
+        score += 10; // 全是大写或全是小写字母
+      }
+      const digitCount = (password.match(/\d/g) || []).length;
+      if (digitCount === 0) {
+        score += 0;
+      } else if (digitCount >= 1) {
+        score += 10;
+      }
+      this.passwordscore=score
     },
     handleSubmit() {
       this.$refs.psdform.validate((valid) => {

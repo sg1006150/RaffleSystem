@@ -6,14 +6,15 @@
 -->
 <template>
   <el-menu
-      default-active="2"
+      :default-active="activeIndex"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
       @open="handleOpen"
       @close="handleClose"
+      router
   >
     <h1 style="text-align: center;margin-top: 10px">抽奖系统</h1>
-    <el-menu-item index="1">
+    <el-menu-item index="/manage/rules">
       <el-icon><icon-menu /></el-icon>
       <template #title>抽奖管理</template>
     </el-menu-item>
@@ -32,7 +33,7 @@
       <el-icon><document /></el-icon>
       <template #title>抽奖奖品</template>
     </el-menu-item>
-    <el-menu-item index="4">
+    <el-menu-item v-if="props.type==='admin'" index="/manage/user">
       <el-icon><setting /></el-icon>
       <template #title>管理客户</template>
     </el-menu-item>
@@ -42,12 +43,21 @@
     </el-menu-item>
   </el-menu>
 </template>
-
+<script setup>
+import {defineProps,ref} from "vue";
+const props=defineProps(['type'])
+const activeIndex = ref('/manage/rules')
+</script>
 <script>
 import request from "@/utils/request";
-
+import router from "@/router";
 export default {
   name: "Aside",
+  methods: {
+    router() {
+      return router
+    }
+  },
   props: {
     isCollapse: Boolean,
   },

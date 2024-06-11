@@ -1,5 +1,7 @@
 package com.raffle.rafflesystem.entity;
 
+import java.math.BigInteger;
+
 public class User {
     public String getPassword() {
         return password;
@@ -64,6 +66,16 @@ public class User {
         return email;
     }
 
+    public String getId() {
+        return id;
+    }
+
     private String phone;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String email;
+private String id;
 }

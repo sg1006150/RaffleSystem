@@ -9,11 +9,11 @@
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
     <el-button type="primary" @click="addRow" style="margin-bottom: 20px; margin-left: 480px">新增用户</el-button>
     <el-table :data="filteredData" style="width: 100%">
-      <el-table-column fixed prop="uid" label="UID" width="80" />
-      <el-table-column prop="name" label="用户名" width="120" />
-      <el-table-column prop="password" label="密码" width="270" />
+      <el-table-column fixed prop="id" label="UID" width="80" />
+      <el-table-column prop="username" label="用户名" width="120" />
       <el-table-column prop="phone" label="电话号码" width="150" />
       <el-table-column prop="email" label="电子邮箱" width="200" />
+      <el-table-column prop="type" label="Type" width="100"/>
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleClick(scope.row)">
@@ -32,40 +32,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import {ref, computed, onBeforeMount} from 'vue';
+import request from "@/utils/request";
+import {ElMessage} from "element-plus";
 
 const search = ref('');
 const searchText = ref('');
-const tableData = ref([
-  {
-    uid: '111',
-    name: 'Tom',
-    password: 'Zby521qq@58',
-    phone: '1234567890',
-    email: 'berry1219@outlook.com',
-  },
-  {
-    uid: '112',
-    name: 'Tom',
-    password: 'aaaaaaaaaaaaaaaa',
-    phone: '1234567890',
-    email: '1293419515@qq.com',
-  },
-  {
-    uid: '113',
-    name: 'Tom',
-    password: '@@@@@@@@@@@@@@@@',
-    phone: '8612345678901',
-    email: 'Los Angeles',
-  },
-  {
-    uid: '114',
-    name: 'Berry',
-    password: '################',
-    phone: '1234567890',
-    email: 'Los Angeles',
-  },
-]);
+const tableData = ref([]);
 
 const filteredData = computed(() => {
   if (!searchText.value) {
@@ -75,24 +48,15 @@ const filteredData = computed(() => {
     Object.values(item).some(val => val.toString().toLowerCase().includes(searchText.value.toLowerCase()))
   );
 });
-
+onBeforeMount(()=>{
+  getAllUser()
+})
 const handleClick = (row) => {
   console.log('edit', row);
 };
 
 const performSearch = () => {
   searchText.value = search.value;
-};
-
-const addRow = () => {
-  const newRow = {
-    uid: (tableData.value.length > 0 ? parseInt(tableData.value[0].uid) + 1 : 1).toString(),
-    name: '',
-    password: '',
-    phone: '',
-    email: '',
-  };
-  tableData.value.unshift(newRow);
 };
 
 const disableUser = (row) => {
@@ -104,5 +68,19 @@ const deleteUser = (row) => {
   if (index !== -1) {
     tableData.value.splice(index, 1);
   }
+
 };
+const getAllUser=()=>{
+  request.get("/getAllUsers").then(response=>{
+    if(response.data.success){
+      tableData.value=response.data.data
+    }
+    else{
+      ElMessage.error(response.data.message)
+    }
+  })
+      .catch(error=>{
+        ElMessage.error(error.message)
+      })
+}
 </script>

@@ -4,6 +4,10 @@ import Login from '../views/Login.vue'
 import Register from'../views/Register.vue'
 import Manage from '../views/Manage.vue'
 import SetPWD from '../views/SetPWD.vue'
+import ManageUsers from '../components/ManageUsers.vue'
+import LotteryRules from '../components/LotteryRules.vue'
+import SettingPrize from '../components/SettingPrize.vue'
+import SettingRule from'../components/SettingRule.vue'
 const routes = [
   {
     path: '/',
@@ -26,7 +30,19 @@ const routes = [
   {
     path: '/manage',
     name: 'manage',
-    component: Manage
+    component: Manage,
+    children:[{
+          path:'user',
+          component:ManageUsers
+        },
+      {
+        path:'rules',
+        component: LotteryRules
+      },
+      {
+        path: 'prize',
+        component:SettingRule
+      }]
   },
   {
     path: '/setpwd',

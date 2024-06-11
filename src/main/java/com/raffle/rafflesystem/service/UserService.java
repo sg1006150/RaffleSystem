@@ -43,7 +43,7 @@ public class UserService {
         if(state==0) {throw new ServiceException("设置失败");}
         return user;
     }
-    public List<User> getAllUser(){
+    public List<User> getAllUsers(){
         return userMapper.getAllUser();
     }
 
