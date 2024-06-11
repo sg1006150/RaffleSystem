@@ -8,7 +8,7 @@ import ManageUsers from '../components/ManageUsers.vue'
 import LotteryRules from '../components/LotteryRules.vue'
 import SettingPrize from '../components/SettingPrize.vue'
 import SettingRule from'../components/SettingRule.vue'
-import ManagePrizes from '../components/ManagePrizes.vue'
+import ManagePrizes from '../components/ManagePrizes'
 import ExistUsers from '../components/ExistUsers.vue'
 import QRUsers from '../components/QRUsers.vue'
 const routes = [
@@ -18,12 +18,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/manage',
+    path: '/Manage',
     redirect: '/manage/rules'
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'about',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -48,18 +48,14 @@ const routes = [
       },
       {
         path: 'prize',
-        component:ManagePrizes,
-        children:[{
-          path: 'add',
-          component: SettingPrize
-        }]
+        component:ManagePrizes
       },
       {
         path: 'exist',
         component: ExistUsers
       },
       {
-        path:'qruser',
+        path:'QRUser',
         component: QRUsers
       }]
   },

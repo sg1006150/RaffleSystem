@@ -1,6 +1,7 @@
 package com.raffle.rafflesystem.entity;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 public class User {
     public String getPassword() {
@@ -11,6 +12,24 @@ public class User {
         return username;
     }
 
+    public void setValidUntil(Date validUntil) {
+        this.validUntil = validUntil;
+    }
+
+    public void setValid(Boolean valid) {
+        isValid = valid;
+    }
+
+    public Boolean getValid() {
+        return isValid;
+    }
+
+    public Date getValidUntil() {
+        return validUntil;
+    }
+
+    private Boolean isValid;
+    private Date validUntil;
     private String username;
 
     private String password;

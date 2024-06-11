@@ -14,6 +14,9 @@ import java.util.List;
 public interface ParticipantsMapper {
     @Select("select * from participants")
     List<User> getAllParticipants();
+    @Select("select * from participants where addedby=#{user}")
+    List<User> getParticipantsByUser(User user);
+
 
 
 }
