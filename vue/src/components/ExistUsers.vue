@@ -11,7 +11,7 @@
       <el-table-column fixed prop="id" label="UID" width="80" />
       <el-table-column prop="username" label="用户名" width="120" />
       <el-table-column prop="phone" label="电话号码" width="150" />
-      <el-table-column prop="email" label="电子邮箱" width="200" />
+      <el-table-column prop="email" label="创建人" width="200" />
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleClick(scope.row)">

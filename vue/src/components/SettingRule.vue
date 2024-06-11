@@ -2,6 +2,17 @@
   <div style="padding: 20px;">
     <el-steps :active="active" direction="vertical">
       <el-step>
+        <template #title>规则设置</template>
+        <template #description>
+          <el-form>
+            <el-form-item label="规则名称：" style="width: 300px">
+              <el-input v-model="nameSetting" placeholder="请输入规则名称" />
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-step>
+      
+      <el-step>
         <template #title>抽奖设置</template>
         <template #description>
           <el-form>
@@ -21,7 +32,7 @@
           <el-form>
             <el-form-item label="奖品设定：">
               <div v-for="(prize, index) in prizes" :key="index" style="display: flex; align-items: center; margin-bottom: 10px;">
-                <el-select v-model="prize.level" placeholder="奖项" style="margin-right: 10px; width: 300px">
+                <el-select v-model="prize.level" placeholder="奖项" style="margin-right: 10px; width: 200px">
                   <el-option label="一等奖" value="一等奖"></el-option>
                   <el-option label="二等奖" value="二等奖"></el-option>
                   <el-option label="三等奖" value="三等奖"></el-option>
@@ -57,6 +68,22 @@
           </el-form>
         </template>
       </el-step>
+
+      <el-step>
+        <template #title>简介设置</template>
+        <template #description>
+          <el-form>
+            <el-form-item label="简介设定：" style="width: 380px">
+              <el-input
+                v-model="brief"
+                :autosize="{ minRows: 2, maxRows: 6 }"
+                type="textarea"
+                placeholder="请输入简介"
+              />
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-step>
     </el-steps>
     <div style="text-align: center; margin-top: 20px;">
       <el-button type="primary" @click="save">保存</el-button>
@@ -66,15 +93,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 import { ElMessage } from 'element-plus';
 
 const active = ref(0);
+const nameSetting = ref('');
 const participantSetting = ref('');
 const prizes = ref([
   { level: '', quantity: 1, item: '' }
 ]);
 const modeSetting = ref('');
+const brief = ref(''); // 确保 v-model 变量初始化
 
 const addPrize = () => {
   prizes.value.push({ level: '', quantity: 1, item: '' });
@@ -89,7 +118,13 @@ const removePrize = (index) => {
 };
 
 const save = () => {
-  console.log('保存', { participantSetting: participantSetting.value, prizes: prizes.value, modeSetting: modeSetting.value });
+  console.log('保存', {
+    nameSetting: nameSetting.value,
+    participantSetting: participantSetting.value,
+    prizes: prizes.value,
+    modeSetting: modeSetting.value,
+    brief: brief.value
+  });
   ElMessage.success('保存成功');
 };
 </script>

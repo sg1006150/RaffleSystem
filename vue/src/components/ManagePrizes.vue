@@ -6,8 +6,9 @@
       clearable
       style="margin-bottom: 20px; width: 300px;"
     ></el-input>
+    <el-dialog v-model="addDialogVisible" ><add @cancel="handleDialogClose"></add></el-dialog>
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
-    <el-button type="primary" style="margin-bottom: 20px; margin-left: 200px" index="/manage/prize/add">新增奖品</el-button>
+    <el-button type="primary" style="margin-bottom: 20px; margin-left: 200px" @click="addDialogVisible=true">新增奖品</el-button>
     <el-table :data="filteredData" style="width: 100%">
       <el-table-column fixed prop="id" label="ID" width="80" />
       <el-table-column prop="name" label="名称" width="120" />
@@ -33,9 +34,16 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-
+import { useRouter } from 'vue-router';
+import add from './SettingPrize.vue';
+import {ElMessage}from 'element-plus'
+const addDialogVisible=ref(false)
 const search = ref('');
 const searchText = ref('');
+const router = useRouter(); 
+const handleDialogClose=()=>{
+  addDialogVisible.value=false
+}
 const tableData = ref([
   {
     id: '111',

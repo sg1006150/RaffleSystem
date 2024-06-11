@@ -16,7 +16,7 @@
             </el-upload>
         </el-form-item>
         <div style="margin-left: 100px">
-            <el-button>取消</el-button>
+            <el-button @click="emitCancel">取消</el-button>
             <el-button type="primary" @click="onBtn">添加</el-button>
         </div>
     </el-form>
@@ -26,12 +26,16 @@
 import {ref, reactive} from "vue";
 import axios from "axios";
 import { Plus } from '@element-plus/icons-vue'
- 
+import {ElMessage}from 'element-plus'
+ const emit=defineEmits(['cancel'])
 const formData = reactive({
     prizeName: '',
     prizeAmount: '',
 });
- 
+ const emitCancel=()=>{
+    emit('cancel')
+    ElMessage('click')
+ }
 //定义一个响应式数组用来接收图片
 const fileList = ref([])
  

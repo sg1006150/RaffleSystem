@@ -25,7 +25,7 @@
       </template>
       <el-menu-item-group>
         <template #title><span></span></template>
-        <el-menu-item index="/manage/QRuser">扫码人员</el-menu-item>
+        <el-menu-item index="/manage/qruser">扫码人员</el-menu-item>
         <el-menu-item index="/manage/exist">已有人员</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
