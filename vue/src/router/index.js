@@ -8,11 +8,16 @@ import ManageUsers from '../components/ManageUsers.vue'
 import LotteryRules from '../components/LotteryRules.vue'
 import SettingPrize from '../components/SettingPrize.vue'
 import SettingRule from'../components/SettingRule.vue'
+import ManagePrizes from '../components/ManagePrizes'
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/Manage',
+    redirect: '/manage/rules'
   },
   {
     path: '/login',
@@ -41,7 +46,7 @@ const routes = [
       },
       {
         path: 'prize',
-        component:SettingRule
+        component:ManagePrizes
       }]
   },
   {

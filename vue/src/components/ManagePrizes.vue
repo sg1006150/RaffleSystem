@@ -7,7 +7,7 @@
       style="margin-bottom: 20px; width: 300px;"
     ></el-input>
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
-    <el-button type="primary" @click="addRow" style="margin-bottom: 20px; margin-left: 200px">新增奖品</el-button>
+    <el-button type="primary" style="margin-bottom: 20px; margin-left: 200px" index="/manage/prize/add">新增奖品</el-button>
     <el-table :data="filteredData" style="width: 100%">
       <el-table-column fixed prop="id" label="ID" width="80" />
       <el-table-column prop="name" label="名称" width="120" />
@@ -80,17 +80,17 @@ const performSearch = () => {
   searchText.value = search.value;
 };
 
-const addRow = () => {
-  const newRow = {
-    uid: (tableData.value.length > 0 ? parseInt(tableData.value[0].uid) + 1 : 1).toString(),
-    name: '',
-    password: '',
-    phone: '',
-    email: '',
-    image: 'path/to/newImage.jpg', // 新增行时需要设置一个默认图片路径
-  };
-  tableData.value.unshift(newRow);
-};
+// const addRow = () => {
+//   const newRow = {
+//     uid: (tableData.value.length > 0 ? parseInt(tableData.value[0].uid) + 1 : 1).toString(),
+//     name: '',
+//     password: '',
+//     phone: '',
+//     email: '',
+//     image: 'path/to/newImage.jpg', // 新增行时需要设置一个默认图片路径
+//   };
+//   tableData.value.unshift(newRow);
+// };
 
 const deleteUser = (row) => {
   const index = tableData.value.indexOf(row);

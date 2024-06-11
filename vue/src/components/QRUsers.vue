@@ -12,14 +12,10 @@
       <el-table-column prop="username" label="用户名" width="120" />
       <el-table-column prop="phone" label="电话号码" width="150" />
       <el-table-column prop="email" label="电子邮箱" width="200" />
-      <el-table-column prop="type" label="Type" width="100"/>
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleClick(scope.row)">
             编辑
-          </el-button>
-          <el-button link type="primary" size="small" @click="disableUser(scope.row)">
-            禁用
           </el-button>
           <el-button link type="primary" size="small" @click="deleteUser(scope.row)">
             删除
@@ -56,10 +52,6 @@ const handleClick = (row) => {
 
 const performSearch = () => {
   searchText.value = search.value;
-};
-
-const disableUser = (row) => {
-  console.log('disable', row);
 };
 
 const deleteUser = (row) => {

@@ -25,11 +25,11 @@
       </template>
       <el-menu-item-group>
         <template #title><span></span></template>
-        <el-menu-item index="1-1">扫码人员</el-menu-item>
-        <el-menu-item index="1-2">已有人员</el-menu-item>
+        <el-menu-item index="/manage/QRuser">扫码人员</el-menu-item>
+        <el-menu-item index="/manage/exist">已有人员</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
-    <el-menu-item index="3">
+    <el-menu-item index="/manage/prize">
       <el-icon><document /></el-icon>
       <template #title>抽奖奖品</template>
     </el-menu-item>
@@ -37,7 +37,7 @@
       <el-icon><setting /></el-icon>
       <template #title>管理客户</template>
     </el-menu-item>
-    <el-menu-item index="5">
+    <el-menu-item index="5" disabled>
       <el-icon><setting /></el-icon>
       <template #title>算法维护</template>
     </el-menu-item>
