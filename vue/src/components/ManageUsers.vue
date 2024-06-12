@@ -13,6 +13,7 @@
       <el-table-column prop="phone" label="电话号码" width="150" />
       <el-table-column prop="email" label="电子邮箱" width="200" />
       <el-table-column prop="type" label="Type" width="200"/>
+      <el-table-column prop="valid" label="isValid" width="100"/>
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleClick(scope.row)">
@@ -38,7 +39,7 @@ import {ElMessage} from "element-plus";
 const search = ref('');
 const searchText = ref('');
 const tableData = ref([]);
-
+const chosenUser=ref({})
 const filteredData = computed(() => {
   if (!searchText.value) {
     return tableData.value;
@@ -59,7 +60,19 @@ const performSearch = () => {
 };
 
 const disableUser = (row) => {
-  console.log('disable', row);
+  const index = tableData.value.indexOf(row);
+  chosenUser.value=tableData.value[index]
+  request.post('/setUserValid',chosenUser.value).then(response=>{
+        if(response.data.success){
+          ElMessage.success(response.data.message)
+          getAllUser()
+        }else {
+          ElMessage.error(response.data.message)
+        }
+      }
+  ).catch(error=>{
+    ElMessage.error(error.message)
+  })
 };
 
 const deleteUser = (row) => {

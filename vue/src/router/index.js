@@ -9,7 +9,7 @@ import LotteryRules from '../components/LotteryRules.vue'
 import SettingPrize from '../components/SettingPrize.vue'
 import SettingRule from'../components/SettingRule.vue'
 import ManagePrizes from '../components/ManagePrizes'
-import ExistUsers from '../components/ExistUsers.vue'
+import ExistUsers from '../components/ExistParticipants.vue'
 import QRUsers from '../components/QRUsers.vue'
 import Lottery from '../components/Lottery'
 const routes = [

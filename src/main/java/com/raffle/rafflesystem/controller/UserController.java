@@ -6,9 +6,7 @@ import com.raffle.rafflesystem.exception.ServiceException;
 import com.raffle.rafflesystem.service.UserService;
 import com.raffle.rafflesystem.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,13 +32,18 @@ public class UserController {
     @GetMapping("/getAllUsers")
     public Result<List<User>>getAllUsers(){
         User currentUser = TokenUtils.getUser();
-/*        if(currentUser==null){
+        if(currentUser==null){
             throw new ServiceException(401,"请登录");
         }
         if(!Objects.equals(currentUser.getType(), "admin")){
             throw new ServiceException(402,"权限不足");
-        }*/
+        }
         List<User> users = userService.getAllUsers();
         return Result.success(users);
+    }
+    @PostMapping("/setUserValid")
+    public Result<Boolean> setUserValid(@RequestBody User user){
+        userService.setUserValid(user);
+        return Result.success(true);
     }
 }

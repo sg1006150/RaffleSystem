@@ -1,17 +1,18 @@
 <template>
     <el-form :model="formData">
         <el-form-item label="奖品名称:" label-width="100">
-            <el-input v-model="formData.prizeName" style="width: 20vw"></el-input>
+            <el-input v-model="formData.name" style="width: 20vw"></el-input>
         </el-form-item>
-        <el-form-item label="奖品数量数量:" label-width="100">
-            <el-input v-model="formData.prizeAmount" placeholder="请输入奖品数量" style="width: 20vw"></el-input>
+        <el-form-item label="奖品价格:" label-width="100">
+            <el-input v-model="formData.price" placeholder="请输入奖品价格" style="width: 20vw"></el-input>
         </el-form-item>
         <el-form-item label="奖品图片:" label-width="100">
             <el-upload
                     :http-request="httpRequest"
-                    multiple
                     :show-file-list="true"
                     list-type="picture-card"
+                    action="http://localhost:8080/upload"
+                    :onremove="handleRemove"
             ><el-icon><Plus /></el-icon>
             </el-upload>
         </el-form-item>
@@ -23,14 +24,16 @@
 </template>
  
 <script setup>
-import {ref, reactive} from "vue";
-import axios from "axios";
+import {ref, reactive, onBeforeMount} from "vue";
+import request from '../utils/request'
 import { Plus } from '@element-plus/icons-vue'
 import {ElMessage}from 'element-plus'
- const emit=defineEmits(['cancel'])
-const formData = reactive({
-    prizeName: '',
-    prizeAmount: '',
+ const emit=defineEmits(['cancel','done'])
+const formData = ref({
+    name: '',
+    price: '',
+    picdirectory:'',
+    addedby:''
 });
  const emitCancel=()=>{
     emit('cancel')
@@ -38,32 +41,50 @@ const formData = reactive({
  }
 //定义一个响应式数组用来接收图片
 const fileList = ref([])
- 
 //自定义函数用来覆盖原有的XHR行为（默认提交行为）
 function httpRequest(option) {
 //将图片存到数组中
     fileList.value.push(option)
 }
- 
+const getCurrentUser=()=>{
+  request.get('/getCurrentUser').then(response=>{
+        if(response.data.success){
+          formData.value.addedby=response.data.data.username
+        }
+      }
+  ).catch(error=>{
+    ElMessage.error(error.message)
+  })
+}
+onBeforeMount(()=>{
+  getCurrentUser()
+})
 async function onBtn() {
+   if(formData.value.name===''||formData.value.price===''){
+     ElMessage.error("输入数据不合法")
+     return
+   }
     let dataForm = new FormData();
-    dataForm.append('prizeName', formData.prizeName)
-    dataForm.append('prizeAmount', formData.prizeAmount)
- 
 //将图片的二进制通过表单的形式发送到后台
     fileList.value.forEach((it,index)=>{
-        dataForm.append('filename',it.file)
+        dataForm.append('file',it.file)
     })
-    await axios({
-        method: 'POST',
-        url: '',
-        data: dataForm,
-//设置请求参数的规则
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    }).then(response => {
-        console.log(response.data)
+    request.post('/upload',dataForm).then(response => {
+      if(response.data.success) {
+        formData.value.picdirectory=response.data.data
+        request.post('/addPrize',formData.value).then(response=>{
+          if(response.data.success) {
+            ElMessage.success(response.data.message)
+            emit("done")
+          }
+          else{ElMessage.error(response.data.message)}
+        }).catch(error=>{
+          ElMessage.error(error.message)
+        })
+      }
+      else {ElMessage.error(response.data.message)}
+    }).catch(error=>{
+      ElMessage.error(error.message)
     })
 }
 </script>

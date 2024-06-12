@@ -49,4 +49,14 @@ public class Prize {
     private String picdirectory;
     private Date updatetime;
     private double price;
+
+    public String getAddedby() {
+        return addedby;
+    }
+
+    public void setAddedby(String addedby) {
+        this.addedby = addedby;
+    }
+
+    private String addedby;
 }

@@ -49,5 +49,10 @@ public class UserService {
     public List<User> getAllUsers(){
         return userMapper.getAllUser();
     }
+    public void setUserValid(User user){
+        user.setValid(!user.getValid());
+        int state=userMapper.updateValid(user);
+        if(state==0){throw new ServiceException("设置失败");}
+    }
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserMapper {
-    @Select("select id,username,phone,email,type from user")
+    @Select("select id,username,phone,email,type,isValid from user")
     List<User> getAllUser();
     @Select("select * from user where phone=#{Phone}")
     User findByPhone(String Phone);
@@ -18,5 +18,6 @@ public interface UserMapper {
     int updateUser(User user);
     @Select("select * from user where username=#{username}")
     User findByUsername(String username);
-
+    @Update("update user set isValid=#{isValid} where id=#{id}")
+    int updateValid(User user);
 }
