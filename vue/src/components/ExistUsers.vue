@@ -6,7 +6,9 @@
       clearable
       style="margin-bottom: 20px; width: 300px;"
     ></el-input>
+    <el-dialog v-model="addDialogVisible"><add @cancel="handleDialogClose"></add></el-dialog>
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
+    <el-button type="primary" style="margin-bottom: 20px; margin-left: 875px" @click="addDialogVisible=true">新增用户</el-button>
     <el-table :data="filteredData" style="width: 100%">
       <el-table-column fixed prop="id" label="UID" width="80" />
       <el-table-column prop="username" label="用户名" width="120" />
@@ -30,10 +32,14 @@
 import {ref, computed, onBeforeMount} from 'vue';
 import request from "@/utils/request";
 import {ElMessage} from "element-plus";
-
+import add from './AddUser.vue';
 const search = ref('');
 const searchText = ref('');
 const tableData = ref([]);
+const addDialogVisible = ref(false);
+const handleDialogClose = () => {
+  addDialogVisible.value = false;
+};
 
 const filteredData = computed(() => {
   if (!searchText.value) {

@@ -11,6 +11,7 @@ import SettingRule from'../components/SettingRule.vue'
 import ManagePrizes from '../components/ManagePrizes'
 import ExistUsers from '../components/ExistUsers.vue'
 import QRUsers from '../components/QRUsers.vue'
+import Lottery from '../components/Lottery'
 const routes = [
   {
     path: '/',
