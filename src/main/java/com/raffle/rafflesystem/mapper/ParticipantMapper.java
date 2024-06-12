@@ -19,7 +19,7 @@ public interface ParticipantMapper {
     int addParticipant(Participant participant);
     @Delete("delete from participants where id=#{id}")
     int deleteParticipant(int id);
-    @Update("update participants set name=#{name},phone=#{phone}")
+    @Update("update participants set name=#{name}, phone=#{phone} where id=#{id}")
     int updateParticipant(Participant participant);
     @Delete("delete from participants where id=#{id}")
     int deleteParticipantById(int id);

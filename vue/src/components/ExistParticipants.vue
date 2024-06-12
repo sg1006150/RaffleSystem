@@ -7,7 +7,7 @@
       style="margin-bottom: 20px; width: 300px;"
     ></el-input>
     <el-dialog v-model="addDialogVisible"><add @done="handleAdded"></add></el-dialog>
-    <el-dialog v-model="updateDialogVisible"><update @done="handleUpdate"></update></el-dialog>
+    <el-dialog v-model="updateDialogVisible"><update :Data="selectedData" @done="handleUpdate"></update></el-dialog>
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
     <el-button type="primary" style="margin-bottom: 20px; margin-left: 875px" @click="addDialogVisible=true">新增用户</el-button>
     <el-table :data="filteredData" style="width: 100%" :key="itemKey">
@@ -17,7 +17,7 @@
       <el-table-column prop="addedby" label="创建人" width="200" />
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="updateDialogVisible=true">
+          <el-button link type="primary" size="small" @click="editUser(scope.row)">
             编辑
           </el-button>
           <el-button link type="primary" size="small" @click="deleteUser(scope.row)">
@@ -34,10 +34,12 @@ import {ref, computed, onBeforeMount} from 'vue';
 import request from "@/utils/request";
 import {ElMessage} from "element-plus";
 import add from './AddParticipant.vue';
+import update from './UpdateParticipant.vue';
 const search = ref('');
 const searchText = ref('');
 const tableData = ref([]);
 const addDialogVisible = ref(false);
+const selectedData = ref(null);
 const handleAdded=()=> {
   addDialogVisible.value = false
   getUsers()
@@ -82,6 +84,10 @@ const getCurrentUser=()=>{
 }
 const performSearch = () => {
   searchText.value = search.value;
+};
+const editUser = (row) => {
+  selectedData.value = { ...row };
+  updateDialogVisible.value = true;
 };
 
 const deleteUser = (row) => {
