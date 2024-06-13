@@ -1,8 +1,12 @@
 package com.raffle.rafflesystem.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.util.Date;
 
 public class Rule {
+    @TableId(value = "id", type = IdType.AUTO)
     private int id;
     private String rulename;
 
@@ -13,15 +17,6 @@ public class Rule {
     public void setId(int id) {
         this.id = id;
     }
-
-    public String getRule() {
-        return rule;
-    }
-
-    public void setRule(String rule) {
-        this.rule = rule;
-    }
-
     public boolean isIstemporary() {
         return istemporary;
     }
@@ -66,7 +61,6 @@ public class Rule {
     private String createdby;
     private String description;
     private boolean istemporary;
-    private String rule;
     
 
 }
