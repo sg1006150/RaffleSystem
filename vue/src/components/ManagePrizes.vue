@@ -7,12 +7,13 @@
       style="margin-bottom: 20px; width: 300px;"
     ></el-input>
     <el-dialog v-model="addDialogVisible" ><add @cancel="handleDialogClose" @done="handleDone"></add></el-dialog>
+    <el-dialog v-model="updateDialogVisible"><update :Data="selectedData" @done="handleUpdate"></update></el-dialog>
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
     <el-button type="primary" style="margin-bottom: 20px; margin-left: 200px" @click="addDialogVisible=true">新增奖品</el-button>
     <el-table :data="filteredData" style="width: 100%">
       <el-table-column fixed prop="id" label="ID" width="80" />
       <el-table-column prop="name" label="名称" width="120" />
-      <el-table-column prop="picdirectory"label="图片" width="120">
+      <el-table-column prop="picdirectory" label="图片" width="120">
         <template #default="scope">
           <img :src="scope.row.image" alt="Image" style="width: 50px; height: 50px;" />
         </template>
@@ -21,7 +22,7 @@
       <el-table-column prop="addedby" label="添加人" width="120" />
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="handleClick(scope.row)">
+          <el-button link type="primary" size="small" @click="editPrize(scope.row)">
             编辑
           </el-button>
           <el-button link type="primary" size="small" @click="deletePrize(scope.row)">
@@ -37,9 +38,11 @@
 import {ref, computed, onBeforeMount} from 'vue';
 import { useRouter } from 'vue-router';
 import add from './SettingPrize.vue';
+import update from './UpdatePrize.vue';
 import {ElMessage}from 'element-plus'
 import request from "@/utils/request";
-const addDialogVisible=ref(false)
+const addDialogVisible=ref(false);
+const selectedData = ref(null);
 const search = ref('');
 const searchText = ref('');
 const router = useRouter();
@@ -53,6 +56,11 @@ const handleDone=()=>{
   addDialogVisible.value=false
   getPrize()
 }
+const handleUpdate=()=>{
+  updateDialogVisible.value=false
+  getUsers()
+}
+const updateDialogVisible=ref(false)
 onBeforeMount(()=>{
   request.get('/getCurrentUser').then(response=>{
         if(response.data.success){
@@ -79,6 +87,10 @@ const handleClick = (row) => {
 
 const performSearch = () => {
   searchText.value = search.value;
+};
+const editPrize = (row) => {
+  selectedData.value = { ...row };
+  updateDialogVisible.value = true;
 };
 const getPrize=()=> {
   if (usertype.value === 'admin') {

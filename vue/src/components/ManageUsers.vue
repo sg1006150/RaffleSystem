@@ -6,6 +6,7 @@
       clearable
       style="margin-bottom: 20px; width: 300px;"
     ></el-input>
+    <el-dialog v-model="updateDialogVisible"><update :Data="selectedData" @done="handleUpdate"></update></el-dialog>
     <el-button type="primary" @click="performSearch" style="margin-left: 10px; margin-bottom:20px">搜索</el-button>
     <el-table :data="filteredData" style="width: 100%">
       <el-table-column fixed prop="id" label="UID" width="80" />
@@ -16,7 +17,7 @@
       <el-table-column prop="valid" label="isValid" width="100"/>
       <el-table-column fixed="right" label="Operations" width="160">
         <template #default="scope">
-          <el-button link type="primary" size="small" @click="handleClick(scope.row)">
+          <el-button link type="primary" size="small" @click="editUser(scope.row)">
             编辑
           </el-button>
           <el-button link type="primary" size="small" @click="disableUser(scope.row)">
@@ -34,12 +35,15 @@
 <script setup>
 import {ref, computed, onBeforeMount} from 'vue';
 import request from "@/utils/request";
+import update from './UpdateUser.vue'
 import {ElMessage} from "element-plus";
 
 const search = ref('');
 const searchText = ref('');
 const tableData = ref([]);
 const chosenUser=ref({})
+const selectedData = ref(null);
+const updateDialogVisible=ref(false)
 const filteredData = computed(() => {
   if (!searchText.value) {
     return tableData.value;
@@ -51,6 +55,11 @@ const filteredData = computed(() => {
 onBeforeMount(()=>{
   getAllUser()
 })
+const handleUpdate=()=>{
+  selectedData.value=null
+  updateDialogVisible.value=false
+  getAllUser()
+}
 const handleClick = (row) => {
   console.log('edit', row);
 };
@@ -59,6 +68,11 @@ const performSearch = () => {
   searchText.value = search.value;
 };
 
+const editUser = (row) => {
+  selectedData.value = { ...row };
+  console.log('After update:', selectedData.value);
+  updateDialogVisible.value = true;
+};
 const disableUser = (row) => {
   const index = tableData.value.indexOf(row);
   chosenUser.value=tableData.value[index]

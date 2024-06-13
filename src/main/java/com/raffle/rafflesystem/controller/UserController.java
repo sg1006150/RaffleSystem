@@ -41,6 +41,11 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         return Result.success(users);
     }
+    @PostMapping("/updateUser")
+    public Result<User> updateUser(@RequestBody User user){
+        userService.updateInformation(user);
+        return Result.success(user);
+    }
     @PostMapping("/setUserValid")
     public Result<Boolean> setUserValid(@RequestBody User user){
         userService.setUserValid(user);

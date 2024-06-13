@@ -39,11 +39,15 @@ public class UserService {
         return user;
     }
     public User updateInformation(User user){
-        if(userMapper.findByUsername(user.getUsername())!=null){
+        User existingUser = userMapper.findByUsername(user.getUsername());
+        // 检查数据库中是否存在具有相同用户名的其他用户
+        if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             throw new ServiceException("用户名已存在");
         }
-        int state=userMapper.updateUser(user);
-        if(state==0) {throw new ServiceException("设置失败");}
+        int state = userMapper.updateUser(user);
+        if (state == 0) {
+            throw new ServiceException("更新失败");
+        }
         return user;
     }
     public List<User> getAllUsers(){
