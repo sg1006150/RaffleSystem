@@ -58,7 +58,7 @@ const handleDone=()=>{
 }
 const handleUpdate=()=>{
   updateDialogVisible.value=false
-  getUsers()
+  getPrize()
 }
 const updateDialogVisible=ref(false)
 onBeforeMount(()=>{
@@ -90,6 +90,7 @@ const performSearch = () => {
 };
 const editPrize = (row) => {
   selectedData.value = { ...row };
+  console.log(selectedData.value);
   updateDialogVisible.value = true;
 };
 const getPrize=()=> {
@@ -123,7 +124,7 @@ const deletePrize = (row) => {
 
   request.delete('/deletePrize',{data:choseId.value}).then(response=>{
         if(response.data.success){
-          ElMessage.success(response.data.message)
+          ElMessage.success("删除成功")
           getPrize()
         }else {
           ElMessage.error(response.data.message)

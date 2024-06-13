@@ -37,13 +37,16 @@ const props = defineProps({
 });
 
 const Data = ref({ ...props.Data });
- const emitCancel=()=>{
-    emit('cancel')
-    ElMessage('click')
- }
- watch(props.Data, (newVal) => {
+
+watch(props.Data, (newVal) => {
   Data.value = { ...newVal };
 });
+
+const emitCancel=()=>{
+    emit('cancel')
+    ElMessage('click')
+}
+
 //定义一个响应式数组用来接收图片
 const fileList = ref([])
 //自定义函数用来覆盖原有的XHR行为（默认提交行为）
@@ -65,31 +68,45 @@ onBeforeMount(()=>{
   getCurrentUser()
 })
 async function onBtn() {
-   if(Data.value.name===''||Data.value.price===''){
-     ElMessage.error("输入数据不合法")
-     return
+   if (Data.value.name === '' || Data.value.price === '') {
+     ElMessage.error("输入数据不合法");
+     return;
    }
-    let dataForm = new FormData();
-//将图片的二进制通过表单的形式发送到后台
-    fileList.value.forEach((it,index)=>{
-        dataForm.append('file',it.file)
-    })
-    request.post('/upload',dataForm).then(response => {
-      if(response.data.success) {
-        Data.value.picdirectory=response.data.data
-        request.post('/addPrize',Data.value).then(response=>{
-          if(response.data.success) {
-            ElMessage.success(response.data.message)
-            emit("done")
+
+   // 判断是否有文件要上传
+   if (fileList.value.length > 0) {
+      let dataForm = new FormData();
+      fileList.value.forEach((it, index) => {
+          dataForm.append('file', it.file);
+      });
+
+      try {
+          const uploadResponse = await request.post('/upload', dataForm);
+          if (uploadResponse.data.success) {
+              Data.value.picdirectory = uploadResponse.data.data;
+          } else {
+              ElMessage.error(uploadResponse.data.message);
+              return;
           }
-          else{ElMessage.error(response.data.message)}
-        }).catch(error=>{
-          ElMessage.error(error.message)
-        })
+      } catch (error) {
+          ElMessage.error(error.message);
+          return;
       }
-      else {ElMessage.error(response.data.message)}
-    }).catch(error=>{
-      ElMessage.error(error.message)
-    })
+   } else {
+      Data.value.picdirectory = null;  // 设置图片目录为 null
+   }
+
+   // 进行添加奖品的操作
+   try {
+       const addResponse = await request.post('/updatePrize', Data.value);
+       if (addResponse.data.success) {
+           ElMessage.success("修改成功");
+           emit("done");
+       } else {
+           ElMessage.error(addResponse.data.message);
+       }
+   } catch (error) {
+       ElMessage.error(error.message);
+   }
 }
 </script>
