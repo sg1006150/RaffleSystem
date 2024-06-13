@@ -43,7 +43,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import add from './SettingRule.vue';
 import add2 from './Lottery.vue';
-import { ElMessage } from 'element-plus';
+import { ElMessageBox, ElMessage } from 'element-plus';
 
 const addDialogVisible = ref(false);
 const addDialogLotteryVisible = ref(false);
@@ -116,14 +116,26 @@ const handleClick = () => {
 };
 
 const deleteRow = (row) => {
-  const index = tableData.value.findIndex(item => item.No === row.No);
-  if (index !== -1) {
-    tableData.value.splice(index, 1);
-    ElMessage({
-      message: '删除成功',
-      type: 'success',
-    });
-  }
+  ElMessageBox.confirm(
+    '您确定要删除这条规则吗？', 
+    '警告', 
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }
+  ).then(() => {
+    const index = tableData.value.findIndex(item => item.No === row.No);
+    if (index !== -1) {
+      tableData.value.splice(index, 1);
+      ElMessage({
+        message: '删除成功',
+        type: 'success',
+      });
+    }
+  }).catch(() => {
+    
+  });
 };
 
 const performSearch = () => {
